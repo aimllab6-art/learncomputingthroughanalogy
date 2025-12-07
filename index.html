@@ -1,435 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Learn Computing Through Analogy</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Understand computing, AI and programming using real-life analogies." />
+  <meta charset="UTF-8">
+  <title>Why All Programs Are Just Arithmetic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An intuitive explanation of how all computer programs reduce to basic arithmetic and logic, using evolution and biology analogies.">
   <style>
     :root {
-      --bg: #0f172a;
-      --bg-light: #111827;
-      --accent: #38bdf8;
-      --accent-soft: rgba(56, 189, 248, 0.15);
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --card: #020617;
-      --radius: 16px;
+      --bg: #f7f7f9;
+      --card-bg: #ffffff;
+      --border: #dddddd;
+      --accent: #1f4b99;
+      --accent-soft: #eef4ff;
+      --text-main: #222222;
+      --text-muted: #555555;
+      --mono: "SF Mono", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
     body {
-      background: radial-gradient(circle at top, #1e293b 0, #020617 60%);
-      color: var(--text);
-      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      font-family: var(--sans);
+      background: radial-gradient(circle at top, #f0f4ff 0, #f7f7f9 45%, #f7f7f9 100%);
+      color: var(--text-main);
     }
     header {
-      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
-      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+      backdrop-filter: blur(8px);
       position: sticky;
       top: 0;
       z-index: 10;
-      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.7));
+      background: rgba(247,247,249,0.9);
+    }
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0.8rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--accent);
     }
     .nav {
-      max-width: 1024px;
-      margin: 0 auto;
-      padding: 0.8rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .logo {
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-    .logo span {
-      color: var(--accent);
-    }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      margin-left: 1.2rem;
       font-size: 0.9rem;
+      color: var(--text-muted);
+      opacity: 0.8;
     }
-    nav a:hover {
-      color: var(--accent);
-    }
-
     main {
-      max-width: 1024px;
-      margin: 0 auto;
-      padding: 1.5rem 1rem 3rem;
+      max-width: 960px;
+      margin: 2.5rem auto 3.5rem;
+      padding: 0 1.25rem 2rem;
     }
-
-    /* Hero */
     .hero {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 1.6fr);
-      gap: 2rem;
-      align-items: center;
-      padding: 2rem 0 2.5rem;
-    }
-    @media (max-width: 768px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
+      margin-bottom: 2rem;
     }
     .hero-title {
-      font-size: clamp(1.9rem, 3vw, 2.4rem);
-      font-weight: 700;
-      line-height: 1.15;
-      margin-bottom: 1rem;
-    }
-    .hero-title span {
-      color: var(--accent);
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      margin: 0 0 0.6rem;
+      letter-spacing: -0.02em;
     }
     .hero-subtitle {
-      color: var(--muted);
+      margin: 0 0 1.2rem;
+      max-width: 40rem;
+      color: var(--text-muted);
       font-size: 0.98rem;
       line-height: 1.6;
-      margin-bottom: 1.5rem;
     }
-
-    .hero-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
-    }
-    .btn {
-      border-radius: 999px;
-      padding: 0.7rem 1.3rem;
-      font-size: 0.9rem;
-      border: 1px solid transparent;
-      cursor: pointer;
-      text-decoration: none;
+    .hero-tag {
       display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #0b1120;
-      font-weight: 600;
-    }
-    .btn-primary:hover {
-      filter: brightness(1.05);
-    }
-    .btn-ghost {
-      background: transparent;
-      border-color: rgba(148, 163, 184, 0.5);
-      color: var(--muted);
-    }
-    .btn-ghost:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    .hero-note {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.4rem 0.8rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: var(--muted);
-      font-size: 0.75rem;
-    }
-
-    /* Hero card (right side) */
-    .hero-card {
-      background: radial-gradient(circle at top left, #0f172a, #020617);
-      border-radius: var(--radius);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      padding: 1.2rem 1.3rem;
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
-    }
-    .hero-card-title {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 0.8rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .badge {
-      padding: 0.15rem 0.7rem;
+      padding: 0.3rem 0.7rem;
       border-radius: 999px;
       background: var(--accent-soft);
       color: var(--accent);
-      font-size: 0.7rem;
-    }
-    .analogy-block {
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: var(--radius);
-      padding: 0.9rem;
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 0.82rem;
-      line-height: 1.5;
-    }
-    .analogy-label {
-      font-size: 0.7rem;
-      color: var(--muted);
+      font-size: 0.78rem;
       text-transform: uppercase;
-      letter-spacing: 0.09em;
-      margin-bottom: 0.2rem;
-    }
-    .analogy-text {
-      margin-bottom: 0.7rem;
-    }
-    .analogy-arrow {
-      font-size: 0.8rem;
-      color: var(--accent);
-      margin: 0.4rem 0;
-    }
-    .analogy-footer {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 0.4rem;
-    }
-
-    /* Sections */
-    section {
-      margin-top: 2rem;
-    }
-    .section-title {
-      font-size: 1.1rem;
-      margin-bottom: 0.4rem;
+      letter-spacing: 0.08em;
       font-weight: 600;
     }
-    .section-subtitle {
+    .hero-tag span {
       font-size: 0.9rem;
-      color: var(--muted);
-      margin-bottom: 1rem;
     }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
+    .content-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.4rem 1.6rem;
+      box-shadow: 0 14px 40px rgba(0,0,0,0.04);
     }
-    @media (max-width: 900px) {
-      .grid-3 {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    h2, h3 {
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.01em;
     }
-    @media (max-width: 640px) {
-      .grid-3 {
-        grid-template-columns: 1fr;
-      }
+    h2 {
+      font-size: 1.4rem;
     }
-
-    .card {
-      background: var(--bg-light);
-      border-radius: var(--radius);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+    h3 {
+      font-size: 1.15rem;
+    }
+    p {
+      font-size: 0.97rem;
+      line-height: 1.7;
+      margin: 0.3rem 0 0.7rem;
+      color: var(--text-main);
+    }
+    ul {
+      padding-left: 1.1rem;
+      margin: 0.2rem 0 0.7rem;
+    }
+    li {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 0.25rem;
+      color: var(--text-main);
+    }
+    code {
+      font-family: var(--mono);
+      font-size: 0.9em;
+      background: #f1f3f7;
+      padding: 0.12rem 0.32rem;
+      border-radius: 4px;
+    }
+    .note {
+      margin: 1.1rem 0;
       padding: 0.9rem 1rem;
-      font-size: 0.88rem;
+      border-left: 4px solid #444;
+      border-radius: 8px;
+      background: #f2f2f4;
+      font-size: 0.92rem;
+      color: var(--text-muted);
     }
-    .card h3 {
-      font-size: 0.98rem;
-      margin-bottom: 0.4rem;
+    .blue-note {
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 10px;
+      border: 1px solid #d4e1ff;
+      margin-top: 1.3rem;
     }
-    .card p {
-      color: var(--muted);
-      line-height: 1.5;
-      margin-bottom: 0.4rem;
+    .analogy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.6rem;
     }
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.15rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 0.7rem;
-      color: var(--muted);
+    .analogy-card {
+      padding: 0.7rem 0.8rem;
+      border-radius: 10px;
+      background: #fafbff;
+      border: 1px dashed #d3daf3;
+      font-size: 0.9rem;
     }
-
+    .analogy-card strong {
+      display: block;
+      margin-bottom: 0.2rem;
+    }
     footer {
-      margin-top: 2.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(148, 163, 184, 0.3);
+      max-width: 960px;
+      margin: 0 auto 2rem;
+      padding: 0 1.25rem;
       font-size: 0.8rem;
-      color: var(--muted);
-      text-align: center;
+      color: var(--text-muted);
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="nav">
-      <div class="logo">
-        <span>◇</span> LearnComputingThroughAnalogy
-      </div>
-      <nav>
-        <a href="#topics">Topics</a>
-        <a href="#analogies">Analogy Library</a>
-        <a href="#about">About</a>
-      </nav>
+    <div class="header-inner">
+      <div class="brand">Learn Computing Through Analogy</div>
+      <div class="nav">Concepts · Foundations</div>
     </div>
   </header>
 
   <main>
-    <!-- Hero -->
     <section class="hero">
-      <div>
-        <h1 class="hero-title">
-          Learn computing by <span>translating it</span> into real-life systems.
-        </h1>
-        <p class="hero-subtitle">
-          Instead of abstract formulas, we use factories, traffic, mafia deals, and everyday decisions
-          to explain programming, AI, and systems. If you can imagine it mechanically, you can understand it.
-        </p>
-        <div class="hero-buttons">
-          <a href="#analogies" class="btn btn-primary">Start with an analogy →</a>
-          <a href="#topics" class="btn btn-ghost">Browse topics</a>
-        </div>
-        <div class="hero-note">
-          <span>⚙️</span>
-          <span>Built for people who think in pictures, stories, and mechanics.</span>
-        </div>
+      <div class="hero-tag">
+        <span>Concept</span> · Why all programs are just arithmetic
       </div>
-
-      <aside class="hero-card">
-        <div class="hero-card-title">
-          Mini sample
-          <span class="badge">Analogy</span>
-        </div>
-        <div class="analogy-block">
-          <div class="analogy-label">Real world</div>
-          <div class="analogy-text">
-            A team of junior advisors each gives a noisy opinion.
-            The boss doesn’t trust any one person, but averages all of them to decide.
-          </div>
-          <div class="analogy-arrow">⇣</div>
-          <div class="analogy-label">Computing view</div>
-          <div class="analogy-text">
-            This is a <strong>neural network</strong>: each neuron is a weak advisor.
-            Training adjusts how much trust (weight) you place on each advisor so that
-            the final combined decision becomes sharp and accurate.
-          </div>
-          <div class="analogy-footer">
-            Coming soon: backpropagation explained as “how the boss updates trust after each mistake”.
-          </div>
-        </div>
-      </aside>
-    </section>
-
-    <!-- Topics -->
-    <section id="topics">
-      <h2 class="section-title">Topics you can learn through analogies</h2>
-      <p class="section-subtitle">
-        Each topic will have multiple short analogies, diagrams, and small exercises.
+      <h1 class="hero-title">Why All Programs Are Just Arithmetic</h1>
+      <p class="hero-subtitle">
+        Web browsers, games, AI models, operating systems – they look completely different.
+        But deep inside, every program the computer runs is built from the same tiny building blocks:
+        arithmetic and logic on binary numbers.
       </p>
-      <div class="grid-3">
-        <div class="card">
-          <h3>Programming Basics</h3>
-          <p>Variables as labeled boxes, loops as conveyor belts, functions as factory machines.</p>
-          <span class="pill">Python • Logic • Mental models</span>
-        </div>
-        <div class="card">
-          <h3>Data Structures</h3>
-          <p>Stacks as plate piles, queues as ticket lines, graphs as cities and roads.</p>
-          <span class="pill">Arrays • Trees • Graphs</span>
-        </div>
-        <div class="card">
-          <h3>Algorithms</h3>
-          <p>Sorting as organizing shelves, searching as detective work with constraints.</p>
-          <span class="pill">Thinking in steps</span>
-        </div>
-        <div class="card">
-          <h3>AI & Machine Learning</h3>
-          <p>Loss as cost of mistakes, gradient descent as walking downhill blindfolded.</p>
-          <span class="pill">Neural nets • Probability</span>
-        </div>
-        <div class="card">
-          <h3>Systems & Networks</h3>
-          <p>Operating systems as city managers, packets as letters routed through post offices.</p>
-          <span class="pill">OS • Networks</span>
-        </div>
-        <div class="card">
-          <h3>Rajdeep-Style Stories</h3>
-          <p>Use a fictional strategist under pressure to explain optimization, thresholds, and decisions.</p>
-          <span class="pill">Mechanical psychology</span>
-        </div>
-      </div>
     </section>
 
-    <!-- Analogy library preview -->
-    <section id="analogies">
-      <h2 class="section-title">Analogy library (preview)</h2>
-      <p class="section-subtitle">
-        A few example entries. Later you can turn each into its own page or post.
+    <section id="why-arithmetic" class="content-card">
+      <h2>1. What the CPU is really doing</h2>
+      <p>
+        At the lowest level, the computer only understands binary: <strong>0s and 1s</strong>.
+        Inside the CPU, the Arithmetic Logic Unit (ALU) keeps repeating a small set of operations:
       </p>
-      <div class="grid-3">
-        <div class="card">
-          <h3>1. Functions = Reusable Machines</h3>
-          <p>
-            A function is like a machine on a factory floor: you send in raw material (input),
-            it always performs the same steps, and gives you an output.
-          </p>
-        </div>
-        <div class="card">
-          <h3>2. Backprop = Blame Assignment</h3>
-          <p>
-            After a wrong decision, you trace back through each advisor in the chain
-            and adjust how much you trust them next time.
-          </p>
-        </div>
-        <div class="card">
-          <h3>3. Attention = Smart Spotlight</h3>
-          <p>
-            Instead of reading every word equally, the model shines a spotlight on
-            the few words that matter most for the current decision.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about">
-      <h2 class="section-title">About this project</h2>
-      <p class="section-subtitle">
-        This site is for people who feel, “I’m not bad at logic, I just hate vague explanations.”
+      <ul>
+        <li>Addition and subtraction of binary numbers</li>
+        <li>Comparisons like “less than”, “greater than”, “equal” (implemented using subtraction and flags)</li>
+        <li>Bitwise operations: <code>AND</code>, <code>OR</code>, <code>NOT</code>, <code>XOR</code></li>
+        <li>Moving data between registers and memory using simple address arithmetic</li>
+      </ul>
+      <p>
+        Even a friendly high-level instruction like <code>i = i + 1</code> becomes “add two binary numbers”
+        inside the ALU. A loop condition like <code>while (i &lt;= 5)</code> reduces to “subtract 5 from
+        <code>i</code> and check whether the result is negative, zero, or positive”.
       </p>
-      <div class="card">
-        <p>
-          <strong>LearnComputingThroughAnalogy</strong> starts from how your brain already thinks:
-          stories, physical systems, and mechanical cause-effect chains.
-        </p>
-        <p>
-          The goal is not entertainment. The goal is a <em>cold, clear</em> understanding of computing
-          that stays with you even when you are stressed, tired, or under pressure.
-        </p>
-        <p style="margin-top:0.5rem;">
-          Future plans:
-        </p>
-        <ul style="margin-left:1.1rem; margin-top:0.3rem; color:var(--muted); font-size:0.86rem; line-height:1.5;">
-          <li>Step-by-step analogy courses for ML and data science</li>
-          <li>Printable PDFs and cheat-sheets</li>
-          <li>“Analogy challenges” to test if you really understood a concept</li>
-        </ul>
+
+      <div class="note">
+        <strong>Under the hood:</strong> Every loop is just:
+        <em>compare → do some arithmetic → jump back or exit.</em>
+      </div>
+
+      <h2>2. From simple rules to complex behaviour</h2>
+      <p>
+        When you write code in Python, C, or Java, you think in terms of:
+      </p>
+      <ul>
+        <li>Control flow: <code>if</code>, <code>else</code>, <code>for</code>, <code>while</code></li>
+        <li>Data structures: lists, arrays, trees, dictionaries</li>
+        <li>Functions, classes, and modules</li>
+      </ul>
+      <p>
+        These are higher-level abstractions for humans. When the program runs, they all compile down to the
+        same pattern of machine instructions: <em>add, subtract, compare, move bits, repeat</em>.
+      </p>
+      <p>
+        A music player, a web browser, or even a neural network library is still just carefully organized
+        arithmetic: binary operations executed billions of times per second.
+      </p>
+
+      <div class="note blue-note">
+        <strong>Key idea:</strong> Programs only <em>look</em> complex at the surface.
+        At the machine level, they are layers of abstraction built on top of basic arithmetic and logic.
+      </div>
+
+      <h2>3. Evolution analogy: from bacteria to mammals</h2>
+      <p>
+        Biological evolution follows a similar pattern. The earliest bacteria invented a few powerful tools:
+      </p>
+      <ul>
+        <li><strong>ATP</strong> – a universal energy currency for cells</li>
+        <li><strong>DNA &amp; RNA</strong> – a way to store and copy instructions</li>
+        <li><strong>Cell membranes &amp; ion channels</strong> – ways to sense and communicate with the environment</li>
+        <li><strong>Defense enzymes</strong> – primitive immune mechanisms</li>
+      </ul>
+      <p>
+        Modern mammals, including humans, still run entirely on these same tools. ATP powers your muscles and
+        thoughts, DNA stores your genome, and membrane channels make neurons and hormones work.
+        All the “complex” systems of the body are built on top of these ancient bacterial inventions.
+      </p>
+
+      <div class="analogy-grid">
+        <div class="analogy-card">
+          <strong>ATP ↔ Addition</strong>
+          ATP is the universal energy currency in cells, just like addition is the universal operation
+          underpinning almost all computations.
+        </div>
+        <div class="analogy-card">
+          <strong>DNA ↔ Binary code</strong>
+          DNA stores life’s instructions in four bases; machines store program instructions in 0s and 1s.
+        </div>
+        <div class="analogy-card">
+          <strong>Cell membranes ↔ I/O &amp; memory</strong>
+          Membranes control what enters and leaves the cell, like memory and I/O control data flow in a computer.
+        </div>
+      </div>
+
+      <h2>4. Programming libraries as evolution toolkits</h2>
+      <p>
+        In programming, <strong>libraries</strong> play the same role that bacterial toolkits play in biology.
+        A library is a collection of pre-built, well-tested tools that you can reuse instead of writing everything
+        from scratch:
+      </p>
+      <ul>
+        <li><strong>Math libraries</strong> – fast functions for trigonometry, statistics, and matrix math</li>
+        <li><strong>Graphics libraries</strong> – tools for drawing shapes, rendering scenes, and showing images</li>
+        <li><strong>AI libraries</strong> – building blocks for neural networks and training loops</li>
+      </ul>
+      <p>
+        When you call a function like <code>np.dot(A, B)</code> in NumPy, you are relying on a highly optimized
+        “math toolkit” built on top of basic arithmetic. You don’t manually implement every multiplication and
+        addition – you reuse the library.
+      </p>
+      <p>
+        Evolution does the same thing: it doesn’t reinvent ATP, DNA, or mitochondria for each new species.
+        It reuses and extends the same modules in more and more complex organisms.
+      </p>
+
+      <div class="note blue-note">
+        <strong>Analogy in one line:</strong><br>
+        <em>
+          Bacteria : mammals :: arithmetic : complex software.<br>
+          Bacterial toolkits : organs &amp; systems :: programming libraries : modern applications.
+        </em>
       </div>
     </section>
-
-    <footer>
-      © <span id="year"></span> LearnComputingThroughAnalogy · Built with clear, mechanical thinking.
-    </footer>
   </main>
 
-  <script>
-    // Set current year in footer
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <footer>
+    This page is part of an evolving explanation series on how computing concepts connect to biology and evolution.
+  </footer>
 </body>
 </html>
